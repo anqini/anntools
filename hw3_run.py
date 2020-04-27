@@ -50,6 +50,7 @@ if __name__ == '__main__':
                     print('Upload Log File Error.')
                 os.system('rm /home/ubuntu/anntools/' + outputFilename)
                 os.system('rm /home/ubuntu/anntools/' + logFilename)
+                os.system('rm ' + sys.argv[1])
         else:
                 print("A valid .vcf file must be provided as input to this program.")
 
