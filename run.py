@@ -13,6 +13,7 @@ import sys
 import time
 import driver
 import boto3
+from botocore.exceptions import ClientError
 
 """A rudimentary timer for coarse-grained profiling
 """
@@ -38,9 +39,15 @@ if __name__ == '__main__':
                 filename = sys.argv[1].split('/')[-1]
                 s3 = boto3.client('s3')
                 outputFilename = 'data/' + filename.split('.')[0] + '.annot.vcf'
-                s3.upload_file(Bucket = 'gas-results', Filename = '/home/ubuntu/anntools/' + outputFilename, Key = 'angelo23/' + outputFilename.split('/')[1])
+                try: # handle s3 exception
+                    s3.upload_file(Bucket = 'gas-results', Filename = '/home/ubuntu/anntools/' + outputFilename, Key = 'angelo23/' + outputFilename.split('/')[1])
+                except ClientError:
+                    print('Upload Output File Error.')
                 logFilename = 'data/' + filename + '.count.log'
-                s3.upload_file(Bucket = 'gas-results', Filename = '/home/ubuntu/anntools/' + logFilename, Key = 'angelo23/' + logFilename.split('/')[1])
+                try: # handle s3 exception
+                    s3.upload_file(Bucket = 'gas-results', Filename = '/home/ubuntu/anntools/' + logFilename, Key = 'angelo23/' + logFilename.split('/')[1])
+                except ClientError:
+                    print('Upload Log File Error.')
                 os.system('rm ' + outputFilename)
                 os.system('rm ' + logFilename)
         else:
