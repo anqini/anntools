@@ -38,14 +38,16 @@ if __name__ == '__main__':
                         driver.run(sys.argv[1], 'vcf')
                 filename = sys.argv[1].split('/')[-1]
                 s3 = boto3.client('s3')
+                # hard code username
+                username = 'userX'
                 outputFilename = 'data/' + filename.split('.')[0] + '.annot.vcf'
                 try: # handle s3 exception
-                    s3.upload_file(Bucket = 'gas-results', Filename = '/home/ubuntu/anntools/' + outputFilename, Key = 'angelo23/' + outputFilename.split('/')[1])
+                    s3.upload_file(Bucket = 'gas-results', Filename = '/home/ubuntu/anntools/' + outputFilename, Key = 'angelo23/' + username + '/' + outputFilename.split('/')[1])
                 except ClientError:
                     print('Upload Output File Error.')
                 logFilename = 'data/' + filename + '.count.log'
                 try: # handle s3 exception
-                    s3.upload_file(Bucket = 'gas-results', Filename = '/home/ubuntu/anntools/' + logFilename, Key = 'angelo23/' + logFilename.split('/')[1])
+                    s3.upload_file(Bucket = 'gas-results', Filename = '/home/ubuntu/anntools/' + logFilename, Key = 'angelo23/' + username + '/'+ logFilename.split('/')[1])
                 except ClientError:
                     print('Upload Log File Error.')
                 os.system('rm /home/ubuntu/anntools/' + outputFilename)
