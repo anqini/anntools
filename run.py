@@ -48,8 +48,8 @@ if __name__ == '__main__':
                     s3.upload_file(Bucket = 'gas-results', Filename = '/home/ubuntu/anntools/' + logFilename, Key = 'angelo23/' + logFilename.split('/')[1])
                 except ClientError:
                     print('Upload Log File Error.')
-                os.system('rm ' + outputFilename)
-                os.system('rm ' + logFilename)
+                os.system('rm /home/ubuntu/anntools/' + outputFilename)
+                os.system('rm /home/ubuntu/anntools/' + logFilename)
         else:
                 print("A valid .vcf file must be provided as input to this program.")
 
